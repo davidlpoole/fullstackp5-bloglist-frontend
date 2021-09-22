@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Toggle from './components/Toggle'
+import FormInput from './components/FormInput'
 
 const InputBox = (props) => {
   return (
@@ -59,7 +61,6 @@ const App = () => {
     }
   }
 
-
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('LoggedInBlogAppUser')
@@ -73,44 +74,41 @@ const App = () => {
       url: url
     }
 
-    await blogService
+    const returnedBlog = await blogService
       .addNew(newBlog)
-    setBlogs(blogs.concat(newBlog))
+
+    setBlogs(blogs.concat(returnedBlog))
     setTitle('')
     setAuthor('')
     setURL('')
-
   }
 
   return (
-
-
     <div>
       <h1>Blogs</h1>
       {
         user === null ? // IF NO USER IS LOGGED IN - ONLY SHOW LOGIN FORM
           <div>
-            <h2>Log in to application</h2>
-            <form onSubmit={handleLogin}>
-              <InputBox type='text' label='Username' value={username} onChange={({ target }) => setUsername(target.value)} />
-              <InputBox type='text' label='Password' value={password} onChange={({ target }) => setPassword(target.value)} />
-              <button type='Submit'>Login</button>
-            </form>
+            <Toggle buttonLabel='Login'>
+              <FormInput title='Login' submitLabel='Login' onSubmit={handleLogin}>
+                <InputBox type='text' label='username' value={username} onChange={({ target }) => setUsername(target.value)} />
+                <InputBox type='text' label='password' value={password} onChange={({ target }) => setPassword(target.value)} />
+              </FormInput>
+            </Toggle>
           </div>
           : // IF USER IS LOGGED IN - SHOW BLOGS
           <div>
-
             <div>
               Logged in as {user.name} <button onClick={handleLogout}>logout</button>
             </div>
-            <h2>Add a blog</h2>
-            <form onSubmit={handleAddNew}>
-              <InputBox type='text' label='Title' value={title} onChange={({ target }) => setTitle(target.value)} />
-              <InputBox type='text' label='Author' value={author} onChange={({ target }) => setAuthor(target.value)} />
-              <InputBox type='text' label='URL' value={url} onChange={({ target }) => setURL(target.value)} />
-              <button type='Submit'>Add new</button>
-            </form>
             <h2>Your bloglist</h2>
+            <Toggle buttonLabel='Add a new blog'>
+              <FormInput title='Add a new blog' submitLabel='Save' onSubmit={handleAddNew}>
+                <InputBox type='text' label='Title' value={title} onChange={({ target }) => setTitle(target.value)} />
+                <InputBox type='text' label='Author' value={author} onChange={({ target }) => setAuthor(target.value)} />
+                <InputBox type='text' label='URL' value={url} onChange={({ target }) => setURL(target.value)} />
+              </FormInput>
+            </Toggle>
             <ul>
               {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />
@@ -118,7 +116,6 @@ const App = () => {
             </ul>
           </div>
       }
-
     </div>
   )
 }
