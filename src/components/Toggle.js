@@ -11,15 +11,13 @@ const Toggle = (props) => {
   }
 
   return (
-    <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
-      </div>
+    <>
+      <button style={hideWhenVisible} onClick={toggleVisibility}>{props.buttonShow}</button>
+      <button style={showWhenVisible} onClick={toggleVisibility}>{props.buttonHide}</button>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -34,7 +34,7 @@ const BlogForm = (props) => {
   return (
     <div>
       <h2>Your bloglist</h2>
-      <Toggle buttonLabel='Add a new blog'>
+      <Toggle buttonShow='Add a new blog' buttonHide="Hide 'new blog' form">
         <FormInput title='Add a new blog' submitLabel='Save' onSubmit={handleAddNew}>
           <InputBox type='text' label='Title' value={title} onChange={({ target }) => setTitle(target.value)} />
           <InputBox type='text' label='Author' value={author} onChange={({ target }) => setAuthor(target.value)} />

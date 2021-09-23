@@ -42,7 +42,7 @@ const LoginForm = (props) => {
   if (props.user === null) {
     return (
       <div>
-        <Toggle buttonLabel='Login'>
+        <Toggle buttonShow='Login' buttonHide='cancel login'>
           <FormInput title='Login' submitLabel='Login' onSubmit={handleLogin}>
             <InputBox type='text' label='username' value={username} onChange={({ target }) => setUsername(target.value)} />
             <InputBox type='password' label='password' value={password} onChange={({ target }) => setPassword(target.value)} />
